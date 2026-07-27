@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+}
+
+enum DrawStatus {
+  UPCOMING
+  COMPLETED
+}
+
+enum WinnerStatus {
+  PENDING
+  CLAIMED
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String     @id
+  email     String     @unique
+  country   String?
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+
+  tickets Ticket[]
+  winners Winner[]
+}
+
+model Draw {
+  id          String     @id @default(cuid())
+  drawDate    DateTime
+  prizeAmount Float
+  status      DrawStatus @default(UPCOMING)
+  createdAt   DateTime   @default(now())
+
+  tickets Ticket[]
+  winners Winner[]
+}
+
+model Ticket {
+  id           String   @id @default(cuid())
+  ticketNumber String   @unique
+  numbers      Int[]
+  userId       String
+  drawId       String
+  createdAt    DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  draw   Draw    @relation(fields: [drawId], references: [id])
+  winner Winner?
+
+  @@unique([userId, drawId])
+  @@index([drawId])
+}
+
+model Winner {
+  id          String       @id @default(cuid())
+  ticketId    String       @unique
+  userId      String
+  drawId      String
+  prizeAmount Float
+  status      WinnerStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  draw   Draw   @relation(fields: [drawId], references: [id])
+
+  @@index([drawId])
+}

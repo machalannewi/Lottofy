@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:claude.ai)",
+      "Bash(npm -v)",
+      "Bash(git --version)",
+      "Bash(docker --version)",
+      "Bash(where psql *)",
+      "Bash(where docker *)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --disable-git)",
+      "Read(//c/My Web Sites/**)",
+      "Bash(npx --yes create-next-app@latest lottofy-tmp --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --disable-git)",
+      "Bash(npx --yes shadcn@latest init -d)",
+      "Bash(npx --yes shadcn@latest add button card input label badge table dialog dropdown-menu avatar separator tabs textarea select sonner skeleton alert)",
+      "Bash(npm install *)",
+      "Bash(npx --yes prisma init --datasource-provider postgresql)",
+      "Bash(npx prisma *)",
+      "WebFetch(domain:pris.ly)",
+      "WebFetch(domain:www.prisma.io)",
+      "Bash(npx tsx *)",
+      "Bash(mkdir -p \"/c/My Web Sites/Lottofy/src/app/\\(public\\)/sign-in/[[...sign-in]]\" \"/c/My Web Sites/Lottofy/src/app/\\(public\\)/sign-up/[[...sign-up]]\")",
+      "Bash(mkdir -p \"/c/My Web Sites/Lottofy/src/app/admin/users\" \"/c/My Web Sites/Lottofy/src/app/admin/draws/[id]\" \"/c/My Web Sites/Lottofy/src/app/admin/winners\" \"/c/My Web Sites/Lottofy/src/app/admin/email\")",
+      "Bash(npx tsc *)",
+      "WebFetch(domain:base-ui.com)",
+      "Bash(xargs grep -l \"UserButtonPropsWithoutCustomPages\")",
+      "Bash(xargs grep -ln \"interface UserButtonProps\")",
+      "Bash(npx eslint *)",
+      "Bash(mv src/proxy.ts src/middleware.ts)",
+      "Bash(npx --yes @next/codemod@canary middleware-to-proxy .)",
+      "Bash(npm run *)"
+    ]
+  }
+}
