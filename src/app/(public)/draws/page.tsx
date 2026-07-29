@@ -26,14 +26,23 @@ export default async function DrawsPage() {
               <div>
                 <div className="flex items-center gap-2">
                   <p className="font-medium">{formatDate(draw.drawDate)}</p>
-                  <Badge variant={draw.status === "UPCOMING" ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      draw.status === "UPCOMING" ? "default" : "secondary"
+                    }
+                  >
                     {draw.status === "UPCOMING" ? "Upcoming" : "Completed"}
                   </Badge>
+                  <Badge variant={draw.isFree ? "secondary" : "outline"}>
+                    {draw.isFree
+                      ? "Free"
+                      : `${formatCurrency(draw.entryAmount)} entry`}
+                  </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                {/* <p className="text-sm text-muted-foreground">
                   {draw._count.tickets} ticket
                   {draw._count.tickets === 1 ? "" : "s"} generated
-                </p>
+                </p> */}
               </div>
               <div className="flex items-center gap-4">
                 <p className="text-lg font-semibold text-primary">

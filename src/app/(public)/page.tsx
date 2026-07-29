@@ -2,9 +2,21 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Countdown } from "@/components/countdown";
+import { Testimonials } from "@/components/testimonials";
 import { getNextUpcomingDraw, getPublicWinners } from "@/lib/data";
 import { formatCurrency, maskEmail } from "@/lib/format";
-import { Ticket, Calendar, ShieldCheck, Trophy } from "lucide-react";
+import {
+  Ticket,
+  Calendar,
+  ShieldCheck,
+  Trophy,
+  ArrowUpRight,
+} from "lucide-react";
+import { StatsSection } from "@/components/stats";
+import LogoTicker from "@/components/logo-ticker";
+import Faqs from "@/components/faqs";
+import Features from "@/components/features";
+import { ContactSection } from "@/components/contact";
 
 export default async function HomePage() {
   const [upcomingDraw, winners] = await Promise.all([
@@ -21,19 +33,26 @@ export default async function HomePage() {
               100% free ticket entry
             </span>
             <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">
-              Pick a date. Generate your ticket.
+              Pick a draw. Generate your ticket.
               <span className="text-primary"> That&apos;s it.</span>
             </h1>
             <p className="mt-4 max-w-md text-lg text-muted-foreground">
-              Lottofy gives everyone a free shot at the draw. No payment, no
-              catch — just generate your ticket and wait for the results.
+              Lottofy gives everyone a free shot at the draw. No credit card
+              required, no catch — just generate your ticket and wait for the
+              results.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button size="lg" render={<Link href="/dashboard" />}>
-                <Ticket className="h-4 w-4" />
+              <Button
+                className="px-5 py-5 rounded-lg text-lg font-semibold"
+                render={<Link href="/dashboard" />}
+              >
                 Generate my ticket
               </Button>
-              <Button size="lg" variant="outline" render={<Link href="/draws" />}>
+              <Button
+                className="px-5 py-5 rounded-lg text-lg font-semibold"
+                variant="outline"
+                render={<Link href="/draws" />}
+              >
                 View draws
               </Button>
             </div>
@@ -63,51 +82,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 bg-card/30 py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="text-center text-2xl font-semibold">How it works</h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {[
-              {
-                icon: Calendar,
-                title: "1. Pick a draw",
-                desc: "Choose the upcoming draw date you want to enter.",
-              },
-              {
-                icon: Ticket,
-                title: "2. Generate a ticket",
-                desc: "We instantly generate a unique free ticket for you.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "3. Wait for results",
-                desc: "Winners are picked and posted after the draw closes.",
-              },
-            ].map((step) => (
-              <Card key={step.title}>
-                <CardContent className="flex flex-col items-start gap-3 p-6">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <step.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-medium">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">{step.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <LogoTicker />
+
+      <StatsSection />
+
+      <Features />
+
+      <Testimonials />
 
       <section className="py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-2xl font-semibold">
+            <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-medium">
               <Trophy className="h-5 w-5 text-primary" />
               Recent winners
             </h2>
-            <Button variant="ghost" render={<Link href="/winners" />}>
-              View all
-            </Button>
+            <div>
+              <Button variant="ghost" render={<Link href="/winners" />}>
+                View all
+                <ArrowUpRight />
+              </Button>
+            </div>
           </div>
 
           {winners.length === 0 ? (
@@ -117,9 +112,11 @@ export default async function HomePage() {
           ) : (
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {winners.slice(0, 3).map((winner) => (
-                <Card key={winner.id}>
+                <Card key={winner.id} className="h-44">
                   <CardContent className="p-5">
-                    <p className="font-medium">{maskEmail(winner.user.email)}</p>
+                    <p className="font-medium">
+                      {maskEmail(winner.user.email)}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       Ticket {winner.ticket.ticketNumber}
                     </p>
@@ -133,6 +130,10 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      <Faqs />
+
+      <ContactSection />
     </div>
   );
 }

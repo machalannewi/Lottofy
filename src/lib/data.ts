@@ -8,6 +8,13 @@ export function getNextUpcomingDraw() {
   });
 }
 
+export function getUpcomingDraws() {
+  return prisma.draw.findMany({
+    where: { status: "UPCOMING" },
+    orderBy: { drawDate: "asc" },
+  });
+}
+
 export function getAllDraws() {
   return prisma.draw.findMany({
     orderBy: { drawDate: "desc" },
@@ -45,11 +52,20 @@ export function getUserTickets(userId: string) {
   });
 }
 
-export async function ensureUserExists(userId: string, email: string) {
+export async function ensureUserExists(
+  userId: string,
+  email: string,
+  profile?: {
+    firstName?: string | null;
+    lastName?: string | null;
+    phone?: string | null;
+    country?: string | null;
+  }
+) {
   return prisma.user.upsert({
     where: { id: userId },
-    update: { email },
-    create: { id: userId, email },
+    update: { email, ...profile },
+    create: { id: userId, email, ...profile },
   });
 }
 

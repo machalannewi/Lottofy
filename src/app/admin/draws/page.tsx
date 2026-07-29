@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CreateDrawDialog } from "@/components/admin/create-draw-dialog";
+import { DeleteDrawButton } from "@/components/admin/delete-draw-button";
 import { getAllDraws } from "@/lib/data";
 import { formatCurrency, formatDate } from "@/lib/format";
 
@@ -34,6 +35,7 @@ export default async function AdminDrawsPage() {
             <TableRow>
               <TableHead>Draw date</TableHead>
               <TableHead>Prize</TableHead>
+              <TableHead>Entry</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Participants</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -47,21 +49,29 @@ export default async function AdminDrawsPage() {
                 </TableCell>
                 <TableCell>{formatCurrency(draw.prizeAmount)}</TableCell>
                 <TableCell>
+                  {draw.isFree ? (
+                    <Badge variant="secondary">Free</Badge>
+                  ) : (
+                    <Badge variant="outline">{formatCurrency(draw.entryAmount)}</Badge>
+                  )}
+                </TableCell>
+                <TableCell>
                   <Badge variant={draw.status === "UPCOMING" ? "default" : "secondary"}>
                     {draw.status === "UPCOMING" ? "Upcoming" : "Completed"}
                   </Badge>
                 </TableCell>
                 <TableCell>{draw._count.tickets}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="flex justify-end gap-2 text-right">
                   <Button size="sm" variant="outline" render={<Link href={`/admin/draws/${draw.id}`} />}>
                     View participants
                   </Button>
+                  <DeleteDrawButton drawId={draw.id} />
                 </TableCell>
               </TableRow>
             ))}
             {draws.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                <TableCell colSpan={6} className="text-center text-muted-foreground">
                   No draws yet.
                 </TableCell>
               </TableRow>

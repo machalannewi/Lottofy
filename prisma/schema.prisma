@@ -30,7 +30,11 @@ enum WinnerStatus {
 model User {
   id        String     @id
   email     String     @unique
+  firstName String?
+  lastName  String?
+  phone     String?
   country   String?
+  balance   Float      @default(0)
   status    UserStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
 
@@ -42,6 +46,8 @@ model Draw {
   id          String     @id @default(cuid())
   drawDate    DateTime
   prizeAmount Float
+  isFree      Boolean    @default(true)
+  entryAmount Float      @default(0)
   status      DrawStatus @default(UPCOMING)
   createdAt   DateTime   @default(now())
 
@@ -58,7 +64,7 @@ model Ticket {
   createdAt    DateTime @default(now())
 
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  draw   Draw    @relation(fields: [drawId], references: [id])
+  draw   Draw    @relation(fields: [drawId], references: [id], onDelete: Cascade)
   winner Winner?
 
   @@unique([userId, drawId])
@@ -76,7 +82,7 @@ model Winner {
 
   ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  draw   Draw   @relation(fields: [drawId], references: [id])
+  draw   Draw   @relation(fields: [drawId], references: [id], onDelete: Cascade)
 
   @@index([drawId])
 }

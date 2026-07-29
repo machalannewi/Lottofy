@@ -22,8 +22,6 @@ export default async function AdminDrawDetailPage({
   const draw = await getDrawWithParticipants(id);
   if (!draw) notFound();
 
-  const hasWinner = draw.winners.length > 0;
-
   return (
     <div>
       <h1 className="text-2xl font-bold tracking-tight">
@@ -48,10 +46,18 @@ export default async function AdminDrawDetailPage({
             <p className="text-sm text-muted-foreground">Participants</p>
             <p className="font-semibold">{draw.tickets.length}</p>
           </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Winners so far</p>
+            <p className="font-semibold">{draw.winners.length}</p>
+          </div>
         </CardContent>
       </Card>
 
-      <h2 className="mt-8 text-lg font-semibold">Participants</h2>
+      <p className="mt-6 text-sm text-muted-foreground">
+        Pick as many winners as you like — selecting one doesn&apos;t
+        prevent picking others.
+      </p>
+      <h2 className="mt-2 text-lg font-semibold">Participants</h2>
       <div className="mt-3 overflow-x-auto rounded-lg border border-border/60">
         <Table>
           <TableHeader>
@@ -75,8 +81,6 @@ export default async function AdminDrawDetailPage({
                 <TableCell className="text-right">
                   {ticket.winner ? (
                     <Badge>Winner</Badge>
-                  ) : hasWinner || draw.status === "COMPLETED" ? (
-                    <span className="text-sm text-muted-foreground">—</span>
                   ) : (
                     <PickWinnerButton
                       ticketId={ticket.id}

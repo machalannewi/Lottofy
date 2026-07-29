@@ -13,18 +13,28 @@ function getParts(target: number) {
 
 export function Countdown({ target }: { target: string | Date }) {
   const targetMs = new Date(target).getTime();
-  const [parts, setParts] = useState(() => getParts(targetMs));
+  // Start null so the server-rendered markup (before we know the client's
+  // clock) matches the first client render exactly, avoiding a hydration
+  // mismatch. The real countdown is computed after mount.
+  const [parts, setParts] = useState<ReturnType<typeof getParts> | null>(null);
 
   useEffect(() => {
-    const id = setInterval(() => setParts(getParts(targetMs)), 1000);
-    return () => clearInterval(id);
+    const tick = () => setParts(getParts(targetMs));
+    const immediate = setTimeout(tick, 0);
+    const id = setInterval(tick, 1000);
+    return () => {
+      clearTimeout(immediate);
+      clearInterval(id);
+    };
   }, [targetMs]);
 
+  const displayParts = parts ?? { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
   const units: Array<[string, number]> = [
-    ["Days", parts.days],
-    ["Hours", parts.hours],
-    ["Mins", parts.minutes],
-    ["Secs", parts.seconds],
+    ["Days", displayParts.days],
+    ["Hours", displayParts.hours],
+    ["Mins", displayParts.minutes],
+    ["Secs", displayParts.seconds],
   ];
 
   return (

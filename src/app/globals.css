@@ -128,3 +128,36 @@
     @apply font-sans;
   }
 }
+
+/* Google Translate widget: hide the injected top banner/iframe and blend
+   the language dropdown into the dark theme instead of Google's default. */
+.goog-te-banner-frame,
+.skiptranslate > iframe {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+.google-translate-widget .goog-te-gadget {
+  font-family: inherit !important;
+  font-size: 0 !important;
+  color: transparent !important;
+}
+.google-translate-widget .goog-te-gadget-simple {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+.google-translate-widget .goog-te-gadget-simple .goog-te-menu-value {
+  color: var(--foreground);
+  font-size: 0.8rem;
+}
+.google-translate-widget .goog-te-gadget-simple .goog-te-menu-value span {
+  color: var(--foreground) !important;
+}
+.google-translate-widget img {
+  display: none !important;
+}

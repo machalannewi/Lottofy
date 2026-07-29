@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { TicketCard } from "@/components/ticket-card";
 import { generateTicketAction } from "@/app/actions/tickets";
+import { formatCurrency } from "@/lib/format";
 import { Ticket as TicketIcon } from "lucide-react";
 
 type Ticket = {
@@ -16,10 +17,14 @@ export function TicketGenerator({
   drawId,
   drawDate,
   initialTicket,
+  isFree = true,
+  entryAmount = 0,
 }: {
   drawId: string;
   drawDate: Date | string;
   initialTicket: Ticket | null;
+  isFree?: boolean;
+  entryAmount?: number;
 }) {
   const [ticket, setTicket] = useState<Ticket | null>(initialTicket);
   const [isPending, startTransition] = useTransition();
@@ -51,11 +56,17 @@ export function TicketGenerator({
   return (
     <div className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-border p-6">
       <p className="text-muted-foreground">
-        You don&apos;t have a ticket for this draw yet.
+        {isFree
+          ? "You don't have a ticket for this draw yet."
+          : `This is a paid draw — entry costs ${formatCurrency(entryAmount)}.`}
       </p>
       <Button onClick={handleGenerate} disabled={isPending} size="lg">
         <TicketIcon className="h-4 w-4" />
-        {isPending ? "Generating..." : "Generate my free ticket"}
+        {isPending
+          ? "Generating..."
+          : isFree
+            ? "Generate my free ticket"
+            : `Enter for ${formatCurrency(entryAmount)}`}
       </Button>
     </div>
   );

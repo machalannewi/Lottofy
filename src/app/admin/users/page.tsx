@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserRowActions } from "@/components/admin/user-row-actions";
 import { getAllUsers } from "@/lib/data";
-import { formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format";
 
 export default async function AdminUsersPage({
   searchParams,
@@ -44,8 +44,11 @@ export default async function AdminUsersPage({
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
               <TableHead>Country</TableHead>
+              <TableHead>Balance</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Tickets</TableHead>
               <TableHead>Wins</TableHead>
@@ -56,8 +59,13 @@ export default async function AdminUsersPage({
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.email}</TableCell>
+                <TableCell className="font-medium">
+                  {[user.firstName, user.lastName].filter(Boolean).join(" ") || "—"}
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.phone ?? "—"}</TableCell>
                 <TableCell>{user.country ?? "—"}</TableCell>
+                <TableCell>{formatCurrency(user.balance)}</TableCell>
                 <TableCell>
                   <Badge variant={user.status === "ACTIVE" ? "default" : "destructive"}>
                     {user.status === "ACTIVE" ? "Active" : "Banned"}
@@ -75,7 +83,7 @@ export default async function AdminUsersPage({
             ))}
             {users.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-muted-foreground">
+                <TableCell colSpan={10} className="text-center text-muted-foreground">
                   No users found.
                 </TableCell>
               </TableRow>

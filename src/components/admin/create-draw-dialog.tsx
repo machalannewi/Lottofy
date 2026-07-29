@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogFooter,
@@ -20,22 +27,29 @@ export function CreateDrawDialog() {
   const [open, setOpen] = useState(false);
   const [drawDate, setDrawDate] = useState("");
   const [prizeAmount, setPrizeAmount] = useState("");
+  const [entryType, setEntryType] = useState<"free" | "paid">("free");
+  const [entryAmount, setEntryAmount] = useState("");
   const [isPending, startTransition] = useTransition();
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!drawDate || !prizeAmount) return;
+    if (entryType === "paid" && !entryAmount) return;
 
     startTransition(async () => {
       try {
         await createDrawAction({
           drawDate,
           prizeAmount: Number(prizeAmount),
+          isFree: entryType === "free",
+          entryAmount: entryType === "paid" ? Number(entryAmount) : 0,
         });
         toast.success("Draw created.");
         setOpen(false);
         setDrawDate("");
         setPrizeAmount("");
+        setEntryType("free");
+        setEntryAmount("");
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Failed to create draw.");
       }
@@ -75,6 +89,32 @@ export function CreateDrawDialog() {
               required
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="entryType">Entry type</Label>
+            <Select value={entryType} onValueChange={(v) => setEntryType(v as "free" | "paid")}>
+              <SelectTrigger id="entryType" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="free">Free to enter</SelectItem>
+                <SelectItem value="paid">Paid entry</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {entryType === "paid" && (
+            <div className="space-y-2">
+              <Label htmlFor="entryAmount">Amount to enter (NGN)</Label>
+              <Input
+                id="entryAmount"
+                type="number"
+                min="0"
+                step="100"
+                value={entryAmount}
+                onChange={(e) => setEntryAmount(e.target.value)}
+                required
+              />
+            </div>
+          )}
           <DialogFooter>
             <Button type="submit" disabled={isPending}>
               {isPending ? "Creating..." : "Create draw"}

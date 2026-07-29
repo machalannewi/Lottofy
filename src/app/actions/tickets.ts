@@ -25,6 +25,10 @@ export async function generateTicketAction(drawId: string) {
     return { error: "This draw is no longer accepting tickets." };
   }
 
+  if (!draw.isFree) {
+    return { error: "Maximum number of participant is selected" };
+  }
+
   const existing = await prisma.ticket.findUnique({
     where: { userId_drawId: { userId, drawId } },
   });

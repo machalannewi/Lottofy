@@ -1,13 +1,13 @@
 export function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-NG", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "NGN",
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(amount);
 }
 
 export function formatDate(date: Date | string) {
-  return new Intl.DateTimeFormat("en-NG", {
+  return new Intl.DateTimeFormat("en-US", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(date));
