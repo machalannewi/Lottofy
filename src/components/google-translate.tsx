@@ -24,9 +24,36 @@ declare global {
 
 export function GoogleTranslate() {
   return (
-    <div className="flex items-center gap-1.5 [&_select]:h-8 [&_select]:rounded-md [&_select]:border [&_select]:border-border [&_select]:bg-background [&_select]:text-foreground [&_select]:text-xs [&_.goog-te-gadget]:text-foreground [&_.goog-te-gadget-simple]:bg-background [&_.goog-te-gadget-simple]:border-border [&_.goog-te-menu-value>span]:text-foreground">
+    <div
+      className="
+        flex items-center gap-1.5 max-w-[7rem]
+        [&_.goog-te-gadget]:!text-[0px]
+        [&_.goog-te-gadget_img]:hidden
+        [&_.goog-te-gadget_a]:hidden
+        [&_.goog-logo-link]:hidden
+        [&_.goog-te-gadget-icon]:hidden
+        [&_select]:!m-0
+        [&_select]:!h-8
+        [&_select]:!w-full
+        [&_select]:!max-w-[6rem]
+        [&_select]:!truncate
+        [&_select]:!rounded-md
+        [&_select]:!border
+        [&_select]:!border-border
+        [&_select]:!bg-background
+        [&_select]:!text-foreground
+        [&_select]:!text-xs
+        [&_.goog-te-gadget-simple]:!bg-background
+        [&_.goog-te-gadget-simple]:!border-border
+        [&_.goog-te-menu-value>span]:!text-foreground
+        [&_.goog-te-menu-value>span]:!text-xs
+      "
+    >
       <Languages className="h-4 w-4 shrink-0 text-muted-foreground" />
-      <div id="google_translate_element" className="google-translate-widget" />
+      <div
+        id="google_translate_element"
+        className="google-translate-widget min-w-0"
+      />
       <Script id="google-translate-init" strategy="afterInteractive">
         {`
           function googleTranslateElementInit() {
