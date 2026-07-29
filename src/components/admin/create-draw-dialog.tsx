@@ -51,7 +51,9 @@ export function CreateDrawDialog() {
         setEntryType("free");
         setEntryAmount("");
       } catch (err) {
-        toast.error(err instanceof Error ? err.message : "Failed to create draw.");
+        toast.error(
+          err instanceof Error ? err.message : "Failed to create draw.",
+        );
       }
     });
   }
@@ -78,7 +80,7 @@ export function CreateDrawDialog() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="prizeAmount">Prize amount (NGN)</Label>
+            <Label htmlFor="prizeAmount">Prize amount (USD)</Label>
             <Input
               id="prizeAmount"
               type="number"
@@ -91,7 +93,10 @@ export function CreateDrawDialog() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="entryType">Entry type</Label>
-            <Select value={entryType} onValueChange={(v) => setEntryType(v as "free" | "paid")}>
+            <Select
+              value={entryType}
+              onValueChange={(v) => setEntryType(v as "free" | "paid")}
+            >
               <SelectTrigger id="entryType" className="w-full">
                 <SelectValue />
               </SelectTrigger>
@@ -103,7 +108,7 @@ export function CreateDrawDialog() {
           </div>
           {entryType === "paid" && (
             <div className="space-y-2">
-              <Label htmlFor="entryAmount">Amount to enter (NGN)</Label>
+              <Label htmlFor="entryAmount">Amount to enter (USD)</Label>
               <Input
                 id="entryAmount"
                 type="number"
