@@ -20,7 +20,13 @@ const navLinks = [
   { href: "/winners", label: "Winners" },
 ];
 
-export function SiteHeader({ clerkConfigured }: { clerkConfigured: boolean }) {
+export function SiteHeader({
+  clerkConfigured,
+  isAdmin,
+}: {
+  clerkConfigured: boolean;
+  isAdmin: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   // Clerk's auth state isn't known during SSR, so anything gated by
@@ -68,6 +74,11 @@ export function SiteHeader({ clerkConfigured }: { clerkConfigured: boolean }) {
                 <Button render={<Link href="/sign-up" />}>Get a ticket</Button>
               </Show>
               <Show when="signed-in">
+                {isAdmin && (
+                  <Button variant="ghost" render={<Link href="/admin" />}>
+                    Admin
+                  </Button>
+                )}
                 <Button variant="ghost" render={<Link href="/dashboard" />}>
                   Dashboard
                 </Button>
@@ -159,6 +170,19 @@ export function SiteHeader({ clerkConfigured }: { clerkConfigured: boolean }) {
                       </Button>
                     </Show>
                     <Show when="signed-in">
+                      {isAdmin && (
+                        <Button
+                          variant="ghost"
+                          render={
+                            <Link
+                              href="/admin"
+                              onClick={() => setOpen(false)}
+                            />
+                          }
+                        >
+                          Admin
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         render={

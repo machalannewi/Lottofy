@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { clerkConfigured } from "@/lib/clerk-config";
 import { getAuthState } from "@/lib/auth";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminMobileNav } from "@/components/admin/admin-mobile-nav";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
 
@@ -16,7 +17,8 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col md:flex-row">
+      <AdminMobileNav />
       <AdminSidebar />
       <div className="flex-1">
         {!clerkConfigured && (

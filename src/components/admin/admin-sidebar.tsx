@@ -4,22 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LogoutButton } from "@/components/logout-button";
-import {
-  LayoutDashboard,
-  Users,
-  CalendarClock,
-  Trophy,
-  Mail,
-  Ticket,
-} from "lucide-react";
-
-const links = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/users", label: "Users", icon: Users },
-  { href: "/admin/draws", label: "Draws", icon: CalendarClock },
-  { href: "/admin/winners", label: "Winners", icon: Trophy },
-  { href: "/admin/email", label: "Broadcast email", icon: Mail },
-];
+import { adminNavLinks } from "@/components/admin/admin-nav-links";
+import { Ticket } from "lucide-react";
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -33,7 +19,7 @@ export function AdminSidebar() {
         Lottofy Admin
       </Link>
       <nav className="flex-1 space-y-1">
-        {links.map((link) => {
+        {adminNavLinks.map((link) => {
           const active =
             link.href === "/admin"
               ? pathname === "/admin"
