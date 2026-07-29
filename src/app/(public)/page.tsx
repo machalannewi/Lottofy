@@ -43,13 +43,13 @@ export default async function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button
-                className="px-5 py-5 rounded-lg text-lg font-semibold"
+                className="px-4 md:px-5 py-5 rounded-lg text-lg font-semibold"
                 render={<Link href="/dashboard" />}
               >
                 Generate my ticket
               </Button>
               <Button
-                className="px-5 py-5 rounded-lg text-lg font-semibold"
+                className="px-4 md:px-5 py-5 rounded-lg text-lg font-semibold"
                 variant="outline"
                 render={<Link href="/draws" />}
               >

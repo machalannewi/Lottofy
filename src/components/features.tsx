@@ -10,7 +10,7 @@ import Key from "@/components/Key";
 
 export default function Features() {
   return (
-    <section className="py-24 px-12">
+    <section className="py-24 px-6">
       <div className="container">
         <div className="flex justify-center">
           <Tag>How it works</Tag>
