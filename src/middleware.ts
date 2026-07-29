@@ -3,19 +3,14 @@ import { NextResponse } from "next/server";
 import { clerkConfigured } from "@/lib/clerk-config";
 
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/admin(.*)"]);
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
+// Only checks that the visitor is signed in. The actual admin-role gate
+// lives in src/app/admin/layout.tsx (via getAuthState), which checks the
+// user's publicMetadata directly instead of a Clerk session-claim.
 export default clerkConfigured
   ? clerkMiddleware(async (auth, req) => {
       if (isProtectedRoute(req)) {
         await auth.protect();
-      }
-      if (isAdminRoute(req)) {
-        const { sessionClaims } = await auth();
-        const metadata = sessionClaims?.metadata as { role?: string } | undefined;
-        if (metadata?.role !== "admin") {
-          return NextResponse.redirect(new URL("/dashboard", req.url));
-        }
       }
     })
   : function middleware() {

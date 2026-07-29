@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { LogoutButton } from "@/components/logout-button";
 import {
   LayoutDashboard,
   Users,
@@ -24,14 +25,14 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-60 shrink-0 border-r border-border/60 bg-card/30 p-4 md:block">
+    <aside className="hidden w-60 shrink-0 flex-col border-r border-border/60 bg-card/30 p-4 md:flex">
       <Link href="/admin" className="mb-6 flex items-center gap-2 px-2 font-semibold">
         <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <Ticket className="h-4 w-4" />
         </span>
         Lottofy Admin
       </Link>
-      <nav className="space-y-1">
+      <nav className="flex-1 space-y-1">
         {links.map((link) => {
           const active =
             link.href === "/admin"
@@ -54,6 +55,7 @@ export function AdminSidebar() {
           );
         })}
       </nav>
+      <LogoutButton className="w-full justify-center" />
     </aside>
   );
 }

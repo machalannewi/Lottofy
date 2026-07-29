@@ -34,7 +34,8 @@
       "Bash(rm -rf .next)",
       "Bash(echo \"exit: $?\")",
       "Bash(powershell -Command \"Get-Process -Id 11940 | Select-Object Id,ProcessName,Path\")",
-      "Bash(powershell -Command \"Stop-Process -Id 11940 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 11940 -Force\")",
+      "PowerShell(Stop-Process -Id 17020 -Force -ErrorAction SilentlyContinue)"
     ]
   }
 }

@@ -14,17 +14,18 @@ import {
 import { formatCurrency } from "@/lib/format";
 import { Wallet } from "lucide-react";
 
-const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@lottofy.com";
+const SUPPORT_EMAIL =
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@lottofy.com";
 
 export function WithdrawalCard({ balance }: { balance: number }) {
   const [open, setOpen] = useState(false);
 
   const mailtoHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
-    "Withdrawal request"
+    "Withdrawal request",
   )}&body=${encodeURIComponent(
     `Hi Lottofy team,\n\nI'd like to withdraw my balance of ${formatCurrency(
-      balance
-    )}.\n\nPlease let me know what you need from me to process this.\n\nThanks,`
+      balance,
+    )}.\n\nPlease let me know what you need from me to process this.\n\nThanks,`,
   )}`;
 
   return (
@@ -51,8 +52,8 @@ export function WithdrawalCard({ balance }: { balance: number }) {
           <DialogHeader>
             <DialogTitle>Request a withdrawal</DialogTitle>
             <DialogDescription>
-              You have {formatCurrency(balance)} available. To withdraw,
-              contact our support team and they&apos;ll take it from there.
+              You have {formatCurrency(balance)} available. To withdraw, contact
+              our support team and they&apos;ll take it from there.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

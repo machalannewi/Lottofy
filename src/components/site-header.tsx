@@ -12,7 +12,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { GoogleTranslate } from "@/components/google-translate";
-import { clerkConfigured } from "@/lib/clerk-config";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { Ticket, Menu } from "lucide-react";
 
@@ -21,7 +20,7 @@ const navLinks = [
   { href: "/winners", label: "Winners" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ clerkConfigured }: { clerkConfigured: boolean }) {
   const [open, setOpen] = useState(false);
 
   // Clerk's auth state isn't known during SSR, so anything gated by
