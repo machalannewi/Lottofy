@@ -3,11 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getAuthState } from "@/lib/auth";
-import { sendEmail } from "@/lib/email";
+import { getMailer } from "@/lib/email";
 import { formatCurrency } from "@/lib/format";
-
-const ADMIN_NOTIFICATION_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@lottofy.com";
 
 export async function submitWithdrawalRequestAction(input: {
   bankName: string;
@@ -43,8 +40,11 @@ export async function submitWithdrawalRequestAction(input: {
   revalidatePath("/admin/withdrawals");
 
   try {
-    await sendEmail({
-      to: ADMIN_NOTIFICATION_EMAIL,
+    const transporter = getMailer();
+
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_USER,
       subject: "New withdrawal request",
       text: `A user has requested a withdrawal.
 
