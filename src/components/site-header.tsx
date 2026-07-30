@@ -18,6 +18,7 @@ import { Ticket, Menu } from "lucide-react";
 const navLinks = [
   { href: "/draws", label: "Draws" },
   { href: "/winners", label: "Winners" },
+  { href: "/about", label: "About" },
 ];
 
 export function SiteHeader({

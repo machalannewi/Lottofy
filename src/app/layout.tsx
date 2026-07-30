@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { clerkConfigured } from "@/lib/clerk-config";
 import { WhatsAppFloat } from "@/components/Whatsappfloat";
+import { LiveChat } from "@/components/live-chat";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {clerkConfigured ? <ClerkProvider>{content}</ClerkProvider> : content}
         <WhatsAppFloat phoneNumber="2349027925008" />
+        <LiveChat />
       </body>
     </html>
   );

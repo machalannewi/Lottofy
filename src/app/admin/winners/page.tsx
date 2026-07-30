@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { WinnerStatusActions } from "@/components/admin/winner-status-actions";
 import { getAllWinners } from "@/lib/data";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 
 const statusVariant: Record<string, "default" | "secondary" | "destructive"> = {
   PENDING: "secondary",
@@ -47,7 +47,12 @@ export default async function AdminWinnersPage() {
                   {winner.ticket.ticketNumber}
                 </TableCell>
                 <TableCell>{winner.user.email}</TableCell>
-                <TableCell>{formatDate(winner.draw.drawDate)}</TableCell>
+                <TableCell>
+                  {getDrawName(winner.draw)}
+                  <span className="block text-xs text-muted-foreground">
+                    {formatDate(winner.draw.drawDate)}
+                  </span>
+                </TableCell>
                 <TableCell>{formatCurrency(winner.prizeAmount)}</TableCell>
                 <TableCell>
                   <Badge variant={statusVariant[winner.status]}>

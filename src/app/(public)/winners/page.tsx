@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getPublicWinners } from "@/lib/data";
-import { formatCurrency, formatDate, maskEmail } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName, maskEmail } from "@/lib/format";
 import { Trophy } from "lucide-react";
 
 const statusLabel: Record<string, string> = {
@@ -37,8 +37,8 @@ export default async function WinnersPage() {
               <div>
                 <p className="font-medium">{maskEmail(winner.user.email)}</p>
                 <p className="text-sm text-muted-foreground">
-                  Ticket {winner.ticket.ticketNumber} &middot; Draw{" "}
-                  {formatDate(winner.draw.drawDate)}
+                  Ticket {winner.ticket.ticketNumber} &middot;{" "}
+                  {getDrawName(winner.draw)} ({formatDate(winner.draw.drawDate)})
                 </p>
               </div>
               <div className="flex items-center gap-3">

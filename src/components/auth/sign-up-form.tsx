@@ -7,7 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { getClerkErrorMessage } from "@/lib/clerk-error";
+import { COUNTRIES } from "@/lib/countries";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -26,6 +34,10 @@ export function SignUpForm() {
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
+    if (!country) {
+      setError("Please select your country.");
+      return;
+    }
     setError(null);
     setIsPending(true);
     try {
@@ -162,12 +174,18 @@ export function SignUpForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="country">Country</Label>
-        <Input
-          id="country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          required
-        />
+        <Select value={country} onValueChange={(v) => setCountry(v ?? "")}>
+          <SelectTrigger id="country" className="w-full">
+            <SelectValue placeholder="Select your country" />
+          </SelectTrigger>
+          <SelectContent>
+            {COUNTRIES.map((c) => (
+              <SelectItem key={c} value={c}>
+                {c}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>

@@ -15,7 +15,7 @@ import { LogoutButton } from "@/components/logout-button";
 import { Countdown } from "@/components/countdown";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 
 export default async function DashboardPage() {
   if (!clerkConfigured) {
@@ -85,7 +85,8 @@ export default async function DashboardPage() {
                           : `${formatCurrency(draw.entryAmount)} entry`}
                       </Badge>
                     </div>
-                    <p className="text-xl font-semibold">
+                    <p className="text-xl font-semibold">{getDrawName(draw)}</p>
+                    <p className="text-sm text-muted-foreground">
                       {formatDate(draw.drawDate)}
                     </p>
                     <p className="mt-1 text-primary font-semibold">
@@ -122,7 +123,7 @@ export default async function DashboardPage() {
                   <div>
                     <p className="font-mono font-medium">{t.ticketNumber}</p>
                     <p className="text-sm text-muted-foreground">
-                      Draw {formatDate(t.draw.drawDate)}
+                      {getDrawName(t.draw)} &middot; {formatDate(t.draw.drawDate)}
                     </p>
                   </div>
                   <Badge variant={t.winner ? "default" : "secondary"}>

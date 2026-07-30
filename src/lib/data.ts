@@ -97,6 +97,13 @@ export function getAllUsers(search?: string) {
   });
 }
 
+export function getWithdrawalRequests() {
+  return prisma.withdrawalRequest.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { user: true },
+  });
+}
+
 export async function getAdminOverviewStats() {
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);

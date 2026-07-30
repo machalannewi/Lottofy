@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Countdown } from "@/components/countdown";
 import { Testimonials } from "@/components/testimonials";
 import { getNextUpcomingDraw, getPublicWinners } from "@/lib/data";
-import { formatCurrency, maskEmail } from "@/lib/format";
+import { formatCurrency, getDrawName, maskEmail } from "@/lib/format";
 import {
   Ticket,
   Calendar,
@@ -64,7 +64,7 @@ export default async function HomePage() {
                 <>
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      Next draw prize pool
+                      {getDrawName(upcomingDraw)} &mdash; prize pool
                     </p>
                     <p className="text-3xl font-bold text-primary">
                       {formatCurrency(upcomingDraw.prizeAmount)}

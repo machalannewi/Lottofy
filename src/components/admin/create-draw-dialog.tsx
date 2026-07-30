@@ -25,6 +25,7 @@ import { Plus } from "lucide-react";
 
 export function CreateDrawDialog() {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
   const [drawDate, setDrawDate] = useState("");
   const [prizeAmount, setPrizeAmount] = useState("");
   const [entryType, setEntryType] = useState<"free" | "paid">("free");
@@ -33,12 +34,13 @@ export function CreateDrawDialog() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!drawDate || !prizeAmount) return;
+    if (!name.trim() || !drawDate || !prizeAmount) return;
     if (entryType === "paid" && !entryAmount) return;
 
     startTransition(async () => {
       try {
         await createDrawAction({
+          name: name.trim(),
           drawDate,
           prizeAmount: Number(prizeAmount),
           isFree: entryType === "free",
@@ -46,6 +48,7 @@ export function CreateDrawDialog() {
         });
         toast.success("Draw created.");
         setOpen(false);
+        setName("");
         setDrawDate("");
         setPrizeAmount("");
         setEntryType("free");
@@ -69,6 +72,16 @@ export function CreateDrawDialog() {
           <DialogTitle>Create a new draw</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="drawName">Draw name</Label>
+            <Input
+              id="drawName"
+              placeholder="e.g. Independence Day Giveaway"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="drawDate">Draw date &amp; time</Label>
             <Input

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAllDraws } from "@/lib/data";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 
 export default async function DrawsPage() {
   const draws = await getAllDraws();
@@ -24,8 +24,11 @@ export default async function DrawsPage() {
           <Card key={draw.id}>
             <CardContent className="flex flex-wrap items-center justify-between gap-4 p-5">
               <div>
-                <div className="flex items-center gap-2">
-                  <p className="font-medium">{formatDate(draw.drawDate)}</p>
+                <p className="font-semibold">{getDrawName(draw)}</p>
+                <div className="mt-1 flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground">
+                    {formatDate(draw.drawDate)}
+                  </p>
                   <Badge
                     variant={
                       draw.status === "UPCOMING" ? "default" : "secondary"

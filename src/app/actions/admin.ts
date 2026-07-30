@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getAuthState } from "@/lib/auth";
+import { getMailer } from "@/lib/email";
+import { formatCurrency, formatDate } from "@/lib/format";
 import { Resend } from "resend";
 
 async function requireAdmin() {
@@ -11,6 +13,7 @@ async function requireAdmin() {
 }
 
 export async function createDrawAction(input: {
+  name: string;
   drawDate: string;
   prizeAmount: number;
   isFree: boolean;
@@ -20,6 +23,7 @@ export async function createDrawAction(input: {
 
   await prisma.draw.create({
     data: {
+      name: input.name,
       drawDate: new Date(input.drawDate),
       prizeAmount: input.prizeAmount,
       isFree: input.isFree,
@@ -92,6 +96,37 @@ export async function pickWinnerAction(input: {
   revalidatePath("/winners");
   revalidatePath("/");
   revalidatePath("/dashboard");
+
+  // Best-effort: never let an email hiccup undo a winner that's already
+  // been recorded and credited.
+  try {
+    const [user, draw] = await Promise.all([
+      prisma.user.findUnique({ where: { id: input.userId } }),
+      prisma.draw.findUnique({ where: { id: input.drawId } }),
+    ]);
+
+    const transporter = getMailer();
+
+    if (user) {
+      await transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: user.email,
+        replyTo: process.env.SMTP_USER,
+        subject: "You won on Lottofy!",
+        text: `Hi${user.firstName ? ` ${user.firstName}` : ""},
+
+Congratulations — you've been selected as a winner${draw ? ` in ${draw.name ?? "the"} draw (${formatDate(draw.drawDate)})` : ""}!
+
+Prize: ${formatCurrency(input.prizeAmount)}
+
+This amount has been added to your account balance. Sign in to your dashboard to see it and request a withdrawal.
+
+— The Lottofy team`,
+      });
+    }
+  } catch {
+    // Swallow — the winner record and balance credit already succeeded.
+  }
 }
 
 export async function setWinnerStatusAction(
@@ -155,6 +190,20 @@ export async function deleteUserAction(userId: string) {
 
   revalidatePath("/admin/users");
   revalidatePath("/admin");
+}
+
+export async function setWithdrawalStatusAction(
+  requestId: string,
+  status: "PENDING" | "PROCESSED"
+) {
+  await requireAdmin();
+
+  await prisma.withdrawalRequest.update({
+    where: { id: requestId },
+    data: { status },
+  });
+
+  revalidatePath("/admin/withdrawals");
 }
 
 export async function sendBroadcastEmailAction(input: {

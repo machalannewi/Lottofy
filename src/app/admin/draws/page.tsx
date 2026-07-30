@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { CreateDrawDialog } from "@/components/admin/create-draw-dialog";
 import { DeleteDrawButton } from "@/components/admin/delete-draw-button";
 import { getAllDraws } from "@/lib/data";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 
 export default async function AdminDrawsPage() {
   const draws = await getAllDraws();
@@ -33,6 +33,7 @@ export default async function AdminDrawsPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Name</TableHead>
               <TableHead>Draw date</TableHead>
               <TableHead>Prize</TableHead>
               <TableHead>Entry</TableHead>
@@ -44,7 +45,8 @@ export default async function AdminDrawsPage() {
           <TableBody>
             {draws.map((draw) => (
               <TableRow key={draw.id}>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium">{getDrawName(draw)}</TableCell>
+                <TableCell className="text-muted-foreground">
                   {formatDate(draw.drawDate)}
                 </TableCell>
                 <TableCell>{formatCurrency(draw.prizeAmount)}</TableCell>
@@ -71,7 +73,7 @@ export default async function AdminDrawsPage() {
             ))}
             {draws.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground">
+                <TableCell colSpan={7} className="text-center text-muted-foreground">
                   No draws yet.
                 </TableCell>
               </TableRow>

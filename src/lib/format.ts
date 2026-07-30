@@ -13,6 +13,10 @@ export function formatDate(date: Date | string) {
   }).format(new Date(date));
 }
 
+export function getDrawName(draw: { name?: string | null; drawDate: Date | string }) {
+  return draw.name?.trim() || `Draw — ${formatDate(draw.drawDate)}`;
+}
+
 export function maskEmail(email: string) {
   const [name, domain] = email.split("@");
   if (!domain) return email;

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAdminOverviewStats } from "@/lib/data";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 import { Users, Ticket, CalendarClock, Trophy } from "lucide-react";
 
 export default async function AdminOverviewPage() {
@@ -58,6 +58,9 @@ export default async function AdminOverviewPage() {
             <div>
               <p className="text-sm text-muted-foreground">Upcoming draw</p>
               <p className="text-lg font-semibold">
+                {getDrawName(stats.upcomingDraw)}
+              </p>
+              <p className="text-sm text-muted-foreground">
                 {formatDate(stats.upcomingDraw.drawDate)} &middot;{" "}
                 {formatCurrency(stats.upcomingDraw.prizeAmount)}
               </p>

@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { PickWinnerButton } from "@/components/admin/pick-winner-button";
 import { getDrawWithParticipants } from "@/lib/data";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, getDrawName } from "@/lib/format";
 
 export default async function AdminDrawDetailPage({
   params,
@@ -24,9 +24,8 @@ export default async function AdminDrawDetailPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight">
-        Draw &mdash; {formatDate(draw.drawDate)}
-      </h1>
+      <h1 className="text-2xl font-bold tracking-tight">{getDrawName(draw)}</h1>
+      <p className="mt-1 text-sm text-muted-foreground">{formatDate(draw.drawDate)}</p>
 
       <Card className="mt-4">
         <CardContent className="flex flex-wrap items-center gap-6 p-5">

@@ -27,6 +27,11 @@ enum WinnerStatus {
   REJECTED
 }
 
+enum WithdrawalStatus {
+  PENDING
+  PROCESSED
+}
+
 model User {
   id        String     @id
   email     String     @unique
@@ -38,12 +43,14 @@ model User {
   status    UserStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
 
-  tickets Ticket[]
-  winners Winner[]
+  tickets             Ticket[]
+  winners             Winner[]
+  withdrawalRequests  WithdrawalRequest[]
 }
 
 model Draw {
   id          String     @id @default(cuid())
+  name        String?
   drawDate    DateTime
   prizeAmount Float
   isFree      Boolean    @default(true)
@@ -53,6 +60,21 @@ model Draw {
 
   tickets Ticket[]
   winners Winner[]
+}
+
+model WithdrawalRequest {
+  id            String           @id @default(cuid())
+  userId        String
+  amount        Float
+  bankName      String
+  accountNumber String
+  routingNumber String?
+  status        WithdrawalStatus @default(PENDING)
+  createdAt     DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Ticket {

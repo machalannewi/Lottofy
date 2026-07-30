@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
@@ -11,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { submitWithdrawalRequestAction } from "@/app/actions/withdrawal";
 import { formatCurrency } from "@/lib/format";
 import { Wallet } from "lucide-react";
 
@@ -19,14 +23,46 @@ const SUPPORT_EMAIL =
 
 export function WithdrawalCard({ balance }: { balance: number }) {
   const [open, setOpen] = useState(false);
+  const [step, setStep] = useState<"form" | "confirmation">("form");
+  const [bankName, setBankName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [routingNumber, setRoutingNumber] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   const mailtoHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
-    "Withdrawal request",
+    "Withdrawal request"
   )}&body=${encodeURIComponent(
-    `Hi Lottofy team,\n\nI'd like to withdraw my balance of ${formatCurrency(
-      balance,
-    )}.\n\nPlease let me know what you need from me to process this.\n\nThanks,`,
+    `Hi Lottofy team,\n\nI'd like to follow up on my withdrawal request for a balance of ${formatCurrency(
+      balance
+    )}.\n\nThanks,`
   )}`;
+
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (!next) {
+      setStep("form");
+      setBankName("");
+      setAccountNumber("");
+      setRoutingNumber("");
+    }
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    startTransition(async () => {
+      const result = await submitWithdrawalRequestAction({
+        bankName,
+        accountNumber,
+        routingNumber: routingNumber || undefined,
+      });
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success("Withdrawal request sent.");
+      setStep("confirmation");
+    });
+  }
 
   return (
     <>
@@ -47,20 +83,72 @@ export function WithdrawalCard({ balance }: { balance: number }) {
         </CardContent>
       </Card>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Request a withdrawal</DialogTitle>
-            <DialogDescription>
-              You have {formatCurrency(balance)} available. To withdraw, contact
-              our support team and they&apos;ll take it from there.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button render={<a href={mailtoHref} />}>
-              Email {SUPPORT_EMAIL}
-            </Button>
-          </DialogFooter>
+          {step === "form" ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>Request a withdrawal</DialogTitle>
+                <DialogDescription>
+                  You have {formatCurrency(balance)} available. Enter your
+                  bank details and our team will process the payout.
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="bankName">Bank name</Label>
+                  <Input
+                    id="bankName"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="accountNumber">Account number</Label>
+                  <Input
+                    id="accountNumber"
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="routingNumber">
+                    Routing number{" "}
+                    <span className="text-muted-foreground">
+                      (if necessary)
+                    </span>
+                  </Label>
+                  <Input
+                    id="routingNumber"
+                    value={routingNumber}
+                    onChange={(e) => setRoutingNumber(e.target.value)}
+                  />
+                </div>
+                <DialogFooter>
+                  <Button type="submit" disabled={isPending}>
+                    {isPending ? "Submitting..." : "Submit request"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Request received</DialogTitle>
+                <DialogDescription>
+                  Your bank details have been sent to our team. If you need to
+                  follow up or have questions, reach out to support directly.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button render={<a href={mailtoHref} />}>
+                  Email {SUPPORT_EMAIL}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>
