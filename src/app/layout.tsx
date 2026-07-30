@@ -35,7 +35,7 @@ const jetbrainsMono = JetBrains_Mono({
 // });
 
 export const metadata: Metadata = {
-  title: "Lottofy — Generate Your Lottery Ticket",
+  title: "Spinworld — Generate Your Lottery Ticket",
   description:
     "Pick a draw date and generate your free lottery ticket. Fast, fair, and transparent.",
 };

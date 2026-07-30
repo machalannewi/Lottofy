@@ -33,7 +33,7 @@ const values = [
   {
     icon: Heart,
     title: "Built for players",
-    desc: "Every part of Lottofy is designed to make entering and tracking draws effortless.",
+    desc: "Every part of Spinworld is designed to make entering and tracking draws effortless.",
   },
 ];
 
@@ -76,11 +76,11 @@ export default function AboutPage() {
           {/* Left: copy */}
           <div className="text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">
-              <Tag>About Lottofy</Tag>
+              <Tag>About Spinworld</Tag>
             </div>
             <p className="mt-4 text-lg text-muted-foreground">
-              Lottofy is a simple, free way to enter lottery-style draws. Pick a
-              draw, generate your ticket, and see the results — no payment, no
+              Spinworld is a simple, free way to enter lottery-style draws. Pick
+              a draw, generate your ticket, and see the results — no payment, no
               hidden steps, no catch.
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function AboutPage() {
             <div className="relative aspect-square overflow-hidden rounded-2xl border border-border/60 sm:aspect-[4/3]">
               <Image
                 src="/images/about.jpg"
-                alt="Lottofy players celebrating a draw win"
+                alt="Spinworld players celebrating a draw win"
                 fill
                 sizes="(min-width: 1024px) 480px, 90vw"
                 className="object-cover"
@@ -129,7 +129,7 @@ export default function AboutPage() {
           <Tag>Why we built this</Tag>
           <div className="mt-6 space-y-4 text-muted-foreground">
             <p>
-              Lottofy started from a pretty ordinary frustration: most free
+              Spinworld started from a pretty ordinary frustration: most free
               lottery sites were not actually free. There was always a catch — a
               card you had to add, a subscription buried in the terms, or
               winners you could never quite verify were real.
@@ -208,12 +208,12 @@ export default function AboutPage() {
       <section className="border-t border-border/60 bg-card/30 py-16">
         <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
           <p className="text-lg text-muted-foreground">
-            We built Lottofy because we wanted to enter a free draw ourselves,
+            We built Spinworld because we wanted to enter a free draw ourselves,
             without wondering what the catch was. If you ever run into one here,
             tell us — we would genuinely rather fix it than have you wonder
             about it.
           </p>
-          <p className="mt-4 text-sm font-medium">— The Lottofy Team</p>
+          <p className="mt-4 text-sm font-medium">— The Spinworld Team</p>
         </div>
       </section>
     </div>

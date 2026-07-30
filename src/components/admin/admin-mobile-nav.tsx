@@ -26,7 +26,7 @@ export function AdminMobileNav() {
         <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <Ticket className="h-4 w-4" />
         </span>
-        Lottofy Admin
+        Spinworld Admin
       </Link>
 
       <Sheet open={open} onOpenChange={setOpen}>
@@ -43,13 +43,16 @@ export function AdminMobileNav() {
           }
         />
 
-        <SheetContent side="right" className="w-72 bg-background text-foreground">
+        <SheetContent
+          side="right"
+          className="w-72 bg-background text-foreground"
+        >
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2 text-left">
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Ticket className="h-3.5 w-3.5" />
               </span>
-              Lottofy Admin
+              Spinworld Admin
             </SheetTitle>
           </SheetHeader>
 
@@ -68,7 +71,7 @@ export function AdminMobileNav() {
                     "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
                     active
                       ? "bg-primary/15 text-primary font-medium"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                   )}
                 >
                   <link.icon className="h-4 w-4" />

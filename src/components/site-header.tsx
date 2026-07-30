@@ -46,7 +46,7 @@ export function SiteHeader({
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Ticket className="h-4 w-4" />
           </span>
-          <span className="text-lg">Lottofy</span>
+          <span className="text-lg">Spinworld</span>
         </Link>
 
         {/* Desktop nav — hidden below sm */}
@@ -125,7 +125,7 @@ export function SiteHeader({
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Ticket className="h-3.5 w-3.5" />
                   </span>
-                  Lottofy
+                  Spinworld
                 </SheetTitle>
               </SheetHeader>
 

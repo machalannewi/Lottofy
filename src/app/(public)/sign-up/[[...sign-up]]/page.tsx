@@ -20,7 +20,7 @@ export default function SignUpPage() {
             </span>
             <h1 className="mt-3 text-xl font-semibold">Create your account</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Join Lottofy and generate your free ticket.
+              Join Spinworld and generate your free ticket.
             </p>
           </div>
           <SignUpForm />

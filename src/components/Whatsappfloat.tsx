@@ -12,7 +12,7 @@ interface WhatsAppFloatProps {
 
 export function WhatsAppFloat({
   phoneNumber,
-  message = "Hi! I have a question about Lottofy.",
+  message = "Hi! I have a question about Spinworld.",
 }: WhatsAppFloatProps) {
   const [showTooltip, setShowTooltip] = useState(false);
 

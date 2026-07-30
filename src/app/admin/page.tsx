@@ -26,7 +26,9 @@ export default async function AdminOverviewPage() {
     },
     {
       label: "Next draw",
-      value: stats.upcomingDraw ? formatDate(stats.upcomingDraw.drawDate) : "None scheduled",
+      value: stats.upcomingDraw
+        ? formatDate(stats.upcomingDraw.drawDate)
+        : "None scheduled",
       icon: CalendarClock,
     },
   ];
@@ -35,7 +37,7 @@ export default async function AdminOverviewPage() {
     <div>
       <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
       <p className="mt-1 text-muted-foreground">
-        A snapshot of Lottofy activity.
+        A snapshot of Spinworld activity.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -65,7 +67,9 @@ export default async function AdminOverviewPage() {
                 {formatCurrency(stats.upcomingDraw.prizeAmount)}
               </p>
             </div>
-            <Button render={<Link href={`/admin/draws/${stats.upcomingDraw.id}`} />}>
+            <Button
+              render={<Link href={`/admin/draws/${stats.upcomingDraw.id}`} />}
+            >
               View participants
             </Button>
           </CardContent>

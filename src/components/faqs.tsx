@@ -14,7 +14,7 @@ const faqs = [
   {
     question: "Is it really free to enter?",
     answer:
-      "Yes. Every ticket on Lottofy is completely free. You'll never be asked to pay to enter a draw or to claim a prize.",
+      "Yes. Every ticket on Spinworld is completely free. You'll never be asked to pay to enter a draw or to claim a prize.",
   },
   {
     question: "How are winners chosen?",
@@ -37,9 +37,9 @@ const faqs = [
       "No. You don't need to do anything on draw day — if you win, we'll notify you directly and walk you through the next steps.",
   },
   {
-    question: "Who can join Lottofy?",
+    question: "Who can join Spinworld?",
     answer:
-      "Lottofy is open to registered users worldwide, subject to your local laws around lottery participation. You just need a valid account to enter.",
+      "Spinworld is open to registered users worldwide, subject to your local laws around lottery participation. You just need a valid account to enter.",
   },
   {
     question: "Is my information kept secure?",

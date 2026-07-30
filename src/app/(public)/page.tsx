@@ -37,7 +37,7 @@ export default async function HomePage() {
               <span className="text-primary"> That&apos;s it.</span>
             </h1>
             <p className="mt-4 max-w-md text-lg text-muted-foreground">
-              Lottofy gives everyone a free shot at the draw. No credit card
+              Spinworld gives everyone a free shot at the draw. No credit card
               required, no catch — just generate your ticket and wait for the
               results.
             </p>

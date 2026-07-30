@@ -14,7 +14,7 @@ const contactPoints = [
     id: "email",
     icon: Mail,
     label: "Email us",
-    value: "support@lottofy.com",
+    value: "support@spin-worlds.com",
   },
   {
     id: "response",

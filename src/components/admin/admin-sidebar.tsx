@@ -12,11 +12,14 @@ export function AdminSidebar() {
 
   return (
     <aside className="hidden w-60 shrink-0 flex-col border-r border-border/60 bg-card/30 p-4 md:flex">
-      <Link href="/admin" className="mb-6 flex items-center gap-2 px-2 font-semibold">
+      <Link
+        href="/admin"
+        className="mb-6 flex items-center gap-2 px-2 font-semibold"
+      >
         <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <Ticket className="h-4 w-4" />
         </span>
-        Lottofy Admin
+        Spinworld Admin
       </Link>
       <nav className="flex-1 space-y-1">
         {adminNavLinks.map((link) => {
@@ -32,7 +35,7 @@ export function AdminSidebar() {
                 "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
                 active
                   ? "bg-primary/15 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               <link.icon className="h-4 w-4" />

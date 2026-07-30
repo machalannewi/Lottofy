@@ -32,7 +32,7 @@ export function WithdrawalCard({ balance }: { balance: number }) {
   const mailtoHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
     "Withdrawal request",
   )}&body=${encodeURIComponent(
-    `Hi Lottofy team,\n\nI'd like to follow up on my withdrawal request for a balance of ${formatCurrency(
+    `Hi Spinworld team,\n\nI'd like to follow up on my withdrawal request for a balance of ${formatCurrency(
       balance,
     )}.\n\nThanks,`,
   )}`;
