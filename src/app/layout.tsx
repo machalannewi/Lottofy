@@ -59,7 +59,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {clerkConfigured ? <ClerkProvider>{content}</ClerkProvider> : content}
-        <WhatsAppFloat phoneNumber="2349027925008" />
+        <WhatsAppFloat phoneNumber="447899807355" />
         <LiveChat />
       </body>
     </html>

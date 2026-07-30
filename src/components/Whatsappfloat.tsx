@@ -4,9 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface WhatsAppFloatProps {
-  /** Phone number in international format, digits only — e.g. "2348012345678" */
   phoneNumber: string;
-  /** Pre-filled message opened in the chat */
   message?: string;
 }
 
