@@ -57,8 +57,10 @@ Routing number: ${request.routingNumber ?? "N/A"}
 
 Review it in the admin dashboard under Withdrawals.`,
     });
-  } catch {
-    // Best-effort — the request is already saved either way.
+  } catch (err) {
+    // Best-effort — the request is already saved either way, but we still
+    // need to know WHY the email failed instead of swallowing it silently.
+    console.error("Failed to send withdrawal notification email:", err);
   }
 
   return { success: true };

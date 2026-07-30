@@ -108,24 +108,37 @@ export async function pickWinnerAction(input: {
     const transporter = getMailer();
 
     if (user) {
-      await transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: user.email,
-        replyTo: process.env.SMTP_USER,
-        subject: "You won on Lottofy!",
-        text: `Hi${user.firstName ? ` ${user.firstName}` : ""},
+  const info = await transporter.sendMail({
+    from: `Spinworld <${process.env.SMTP_USER}>`,
+    to: user.email,
+    replyTo: process.env.SMTP_USER,
+    subject: `Update on your ${draw?.name ?? "recent"} draw entry`,
+    text: `Hi${user.firstName ? ` ${user.firstName}` : ""},
 
-Congratulations — you've been selected as a winner${draw ? ` in ${draw.name ?? "the"} draw (${formatDate(draw.drawDate)})` : ""}!
+Your entry in the ${draw ? `${draw.name ?? "recent"} draw (${formatDate(draw.drawDate)})` : "recent draw"} was selected.
 
-Prize: ${formatCurrency(input.prizeAmount)}
+Amount added to your account balance: ${formatCurrency(input.prizeAmount)}
 
-This amount has been added to your account balance. Sign in to your dashboard to see it and request a withdrawal.
+You can view this in your dashboard and request a withdrawal
 
-— The Lottofy team`,
+If anything looks off, reply to this email and we'll help sort it out.
+
+Spinworld`,
+      });
+
+      // sendMail can resolve successfully even when the recipient was
+      // rejected — that shows up here, not as a thrown error.
+      console.log("Winner notification email result:", {
+        messageId: info.messageId,
+        accepted: info.accepted,
+        rejected: info.rejected,
+        response: info.response,
       });
     }
-  } catch {
-    // Swallow — the winner record and balance credit already succeeded.
+  } catch (err) {
+    // Swallow — the winner record and balance credit already succeeded —
+    // but log it, otherwise a broken mailer fails silently forever.
+    console.error("Failed to send winner notification email:", err);
   }
 }
 
@@ -206,6 +219,16 @@ export async function setWithdrawalStatusAction(
   revalidatePath("/admin/withdrawals");
 }
 
+const RESEND_BATCH_SIZE = 100; // Resend's batch endpoint caps at 100 emails per call.
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    result.push(items.slice(i, i + size));
+  }
+  return result;
+}
+
 export async function sendBroadcastEmailAction(input: {
   subject: string;
   message: string;
@@ -233,12 +256,42 @@ export async function sendBroadcastEmailAction(input: {
   const resend = new Resend(apiKey);
   const from = process.env.RESEND_FROM_EMAIL ?? "Lottofy <onboarding@resend.dev>";
 
-  await resend.emails.send({
-    from,
-    to: recipients.map((r) => r.email),
-    subject: input.subject,
-    text: input.message,
-  });
+  // IMPORTANT: don't pass all recipients into one `to` array — that puts
+  // every address in the same To field, so every recipient can see every
+  // other recipient's email. Resend's batch endpoint sends each email
+  // individually (each recipient only ever sees their own address),
+  // chunked here since it caps at 100 emails per call.
+  const batches = chunk(recipients, RESEND_BATCH_SIZE);
+  let sentCount = 0;
 
-  return { sent: recipients.length };
+  try {
+    for (const batch of batches) {
+      const { data, error } = await resend.batch.send(
+        batch.map((r) => ({
+          from,
+          to: r.email,
+          subject: input.subject,
+          text: input.message,
+        }))
+      );
+
+      if (error) {
+        console.error("Resend batch send error:", error);
+        return {
+          error: `Failed after sending to ${sentCount} of ${recipients.length} recipients: ${error.message}`,
+          sent: sentCount,
+        };
+      }
+
+      sentCount += data?.data?.length ?? batch.length;
+    }
+  } catch (err) {
+    console.error("Failed to send broadcast email:", err);
+    return {
+      error: `Failed after sending to ${sentCount} of ${recipients.length} recipients.`,
+      sent: sentCount,
+    };
+  }
+
+  return { sent: sentCount };
 }

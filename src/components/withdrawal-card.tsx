@@ -19,7 +19,7 @@ import { formatCurrency } from "@/lib/format";
 import { Wallet } from "lucide-react";
 
 const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@lottofy.com";
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@spin-worlds.com";
 
 export function WithdrawalCard({ balance }: { balance: number }) {
   const [open, setOpen] = useState(false);
@@ -30,11 +30,11 @@ export function WithdrawalCard({ balance }: { balance: number }) {
   const [isPending, startTransition] = useTransition();
 
   const mailtoHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
-    "Withdrawal request"
+    "Withdrawal request",
   )}&body=${encodeURIComponent(
     `Hi Lottofy team,\n\nI'd like to follow up on my withdrawal request for a balance of ${formatCurrency(
-      balance
-    )}.\n\nThanks,`
+      balance,
+    )}.\n\nThanks,`,
   )}`;
 
   function handleOpenChange(next: boolean) {
@@ -90,8 +90,8 @@ export function WithdrawalCard({ balance }: { balance: number }) {
               <DialogHeader>
                 <DialogTitle>Request a withdrawal</DialogTitle>
                 <DialogDescription>
-                  You have {formatCurrency(balance)} available. Enter your
-                  bank details and our team will process the payout.
+                  You have {formatCurrency(balance)} available. Enter your bank
+                  details and our team will process the payout.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -114,12 +114,7 @@ export function WithdrawalCard({ balance }: { balance: number }) {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="routingNumber">
-                    Routing number{" "}
-                    <span className="text-muted-foreground">
-                      (if necessary)
-                    </span>
-                  </Label>
+                  <Label htmlFor="routingNumber">Routing number </Label>
                   <Input
                     id="routingNumber"
                     value={routingNumber}
@@ -138,8 +133,8 @@ export function WithdrawalCard({ balance }: { balance: number }) {
               <DialogHeader>
                 <DialogTitle>Request received</DialogTitle>
                 <DialogDescription>
-                  Your bank details have been sent to our team. If you need to
-                  follow up or have questions, reach out to support directly.
+                  Your withdrawal could not be completed right now. Please
+                  contact our support to process withdrawal.
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
